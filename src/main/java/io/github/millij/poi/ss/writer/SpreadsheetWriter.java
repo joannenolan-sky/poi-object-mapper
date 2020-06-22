@@ -23,8 +23,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-@Deprecated
 public class SpreadsheetWriter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetWriter.class);
@@ -40,14 +38,20 @@ public class SpreadsheetWriter {
         this(new File(filepath));
     }
 
-    public SpreadsheetWriter(File file) throws FileNotFoundException {
-        this(new FileOutputStream(file));
+    public SpreadsheetWriter(String filepath, XSSFWorkbook workbook) throws FileNotFoundException {
+        this(new FileOutputStream(new File(filepath)), workbook);
     }
 
+    public SpreadsheetWriter(File file) throws FileNotFoundException {
+        this(new FileOutputStream(file), new XSSFWorkbook());
+    }
     public SpreadsheetWriter(OutputStream outputStream) {
+        this(outputStream, new XSSFWorkbook());
+    }
+    public SpreadsheetWriter(OutputStream outputStream, XSSFWorkbook workbook) {
         super();
 
-        this.workbook = new XSSFWorkbook();
+        this.workbook = workbook;
         this.outputStrem = outputStream;
     }
 

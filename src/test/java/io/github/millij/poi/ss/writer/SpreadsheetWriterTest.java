@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,6 +53,25 @@ public class SpreadsheetWriterTest {
         // Excel Writer
         LOGGER.info("test_write_xlsx_single_sheet :: Writing to file - {}", filepath_output_file);
         SpreadsheetWriter gew = new SpreadsheetWriter(filepath_output_file);
+
+        // Employees
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee("1", "foo", 12, "MALE", 1.68));
+        employees.add(new Employee("2", "bar", null, "MALE", 1.68));
+        employees.add(new Employee("3", "foo bar", null, null, null));
+
+        // Write
+        gew.addSheet(Employee.class, employees);
+        gew.write();
+    }
+    @Test
+    public void test_write_xlsx_single_sheet_using_current_file() throws IOException {
+        final String filepath_output_file = _path_test_output.concat("single_sheet.xlsx");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        // Excel Writer
+        LOGGER.info("test_write_xlsx_single_sheet_using_current_file :: Writing to file - {}", filepath_output_file);
+        SpreadsheetWriter gew = new SpreadsheetWriter(filepath_output_file, workbook);
 
         // Employees
         List<Employee> employees = new ArrayList<Employee>();
