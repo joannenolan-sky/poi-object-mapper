@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-@Deprecated
+
 public class SpreadsheetWriter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetWriter.class);
@@ -39,6 +39,9 @@ public class SpreadsheetWriter {
     public SpreadsheetWriter(String filepath) throws FileNotFoundException {
         this(new File(filepath));
     }
+    public SpreadsheetWriter(String filepath, XSSFWorkbook workbook) throws FileNotFoundException {
+        this(new FileOutputStream(new File(filepath)), workbook);
+    }
 
     public SpreadsheetWriter(File file) throws FileNotFoundException {
         this(new FileOutputStream(file));
@@ -48,6 +51,10 @@ public class SpreadsheetWriter {
         super();
 
         this.workbook = new XSSFWorkbook();
+        this.outputStrem = outputStream;
+    }
+    public SpreadsheetWriter(OutputStream outputStream, XSSFWorkbook workbook) {
+        this.workbook = workbook;
         this.outputStrem = outputStream;
     }
 
