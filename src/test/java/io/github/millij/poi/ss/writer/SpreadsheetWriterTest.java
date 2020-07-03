@@ -5,6 +5,7 @@ import io.github.millij.bean.Employee;
 import io.github.millij.poi.ss.writer.SpreadsheetWriter;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -64,6 +65,26 @@ public class SpreadsheetWriterTest {
         gew.addSheet(Employee.class, employees);
         gew.write();
     }
+
+    @Test
+    public void test_write_xlsx_single_sheet_using_current_file_output() throws IOException {
+        final String filepath_output_file = _path_test_output.concat("single_sheet.xlsx");
+
+        // Excel Writer
+        LOGGER.info("test_write_xlsx_single_sheet_using_current_file :: Writing to file - {}", filepath_output_file);
+        SpreadsheetWriter gew = new SpreadsheetWriter(new FileOutputStream(new File(filepath_output_file)));
+
+        // Employees
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee("1", "foo", 12, "MALE", 1.68));
+        employees.add(new Employee("2", "bar", null, "MALE", 1.68));
+        employees.add(new Employee("3", "foo bar", null, null, null));
+
+        // Write
+        gew.addSheet(Employee.class, employees);
+        gew.write();
+    }
+
     @Test
     public void test_write_xlsx_single_sheet_using_current_file() throws IOException {
         final String filepath_output_file = _path_test_output.concat("single_sheet.xlsx");

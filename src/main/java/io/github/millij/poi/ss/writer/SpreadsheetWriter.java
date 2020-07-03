@@ -45,9 +45,11 @@ public class SpreadsheetWriter {
     public SpreadsheetWriter(File file) throws FileNotFoundException {
         this(new FileOutputStream(file), new XSSFWorkbook());
     }
+
     public SpreadsheetWriter(OutputStream outputStream) {
         this(outputStream, new XSSFWorkbook());
     }
+
     public SpreadsheetWriter(OutputStream outputStream, XSSFWorkbook workbook) {
         super();
 

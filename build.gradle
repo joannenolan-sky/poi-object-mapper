@@ -1,9 +1,5 @@
-
 apply plugin: 'java'
 apply plugin: 'jacoco'
-
-apply plugin: 'maven'
-apply plugin: 'signing'
 
 repositories {
     mavenLocal()
@@ -13,12 +9,7 @@ repositories {
 group = 'io.github.millij'
 version = '2.0.0-SNAPSHOT'
 
-
 dependencies {
-
-    // Main compile
-    // ----------------------------------------------------------------------------------
-
     // Slf4j
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.12'
 
@@ -33,7 +24,6 @@ dependencies {
 
     // Test compile
     // ----------------------------------------------------------------------------------
-
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.12'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -42,19 +32,14 @@ dependencies {
 
 // Test
 // ----------------------------------------------------------------------------
-
 test {
     systemProperties 'property': 'value'
 }
 
-
 // Java
 // ----------------------------------------------------------------------------
-
-tasks.withType(JavaCompile) {
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-}
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
@@ -72,89 +57,13 @@ artifacts {
     archives sourcesJar
 }
 
-
-// Signing
-
-signing {
-    sign configurations.archives
-}
-
-
-
 // JaCoCo
 // ----------------------------------------------------------------------------
-
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
     }
 }
-
 jacocoTestReport.dependsOn test
-
 check.dependsOn jacocoTestReport
-
-
-// CheckStyle
-// ----------------------------------------------------------------------------
-
-
-
-// Release
-// ----------------------------------------------------------------------------
-
-uploadArchives {
-
-    repositories {
-        mavenDeployer {
-
-            // Sign Artifacts before deploying
-            beforeDeployment {
-                MavenDeployment deployment -> signing.signPom(deployment) 
-            }
-
-            // Staging Repo
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            // Snapshot Repo
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-
-            // Project Info to generate POM
-            pom.project {
-                name 'Object Mapper for Apache POI'
-                packaging 'jar'
-                description 'Objects mapper for Office formats - Excel files, Spreadsheets, etc. '
-                url 'https://millij.github.io/poi-object-mapper/'
-
-                scm {
-                    url 'https://github.com/millij/poi-object-mapper.git'
-                    connection 'scm:git:https://github.com/millij/poi-object-mapper.git'
-                    developerConnection 'scm:git:https://github.com/millij/poi-object-mapper.git'
-                }
-
-                licenses {
-                    license {
-                        name 'MIT License'
-                        url 'https://opensource.org/licenses/mit-license.php'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'millij'
-                        name 'Gowri Shankar'
-                        email 'gowrishankar.milli@gmail.com'
-                    }
-                }
-            }   // POM
-
-        }   // mavenDeployer
-
-    }
-}
