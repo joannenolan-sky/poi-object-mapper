@@ -9,25 +9,29 @@ repositories {
 group = 'io.github.millij'
 version = '2.0.0-SNAPSHOT'
 
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
 dependencies {
-    // Slf4j
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.12'
+    compile (
+        // Slf4j
+        'org.slf4j:slf4j-api:1.7.12',
 
-    // Apache Commons
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+        // Apache Commons
+        'org.apache.commons:commons-lang3:3.5',
+        'commons-beanutils:commons-beanutils:1.9.3',
 
-    // Apache POI
-    compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
-    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.0.1'
-
+        // Apache POI
+        'org.apache.poi:poi:4.0.1',
+        'org.apache.poi:poi-ooxml:4.0.1'
+    )
 
     // Test compile
     // ----------------------------------------------------------------------------------
-    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.12'
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
+    testCompile(
+        'org.slf4j:slf4j-log4j12:1.7.12',
+        'junit:junit:4.12'
+    )
 }
 
 // Test
@@ -36,29 +40,6 @@ test {
     systemProperties 'property': 'value'
 }
 
-// Java
-// ----------------------------------------------------------------------------
-sourceCompatibility = '11'
-targetCompatibility = '11'
-
-task javadocJar(type: Jar) {
-    mainClassifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    mainClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
-}
-
-// JaCoCo
-// ----------------------------------------------------------------------------
 jacocoTestReport {
     reports {
         xml.enabled = true
