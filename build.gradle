@@ -42,12 +42,12 @@ sourceCompatibility = '11'
 targetCompatibility = '11'
 
 task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+    mainClassifier = 'javadoc'
     from javadoc
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    mainClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
